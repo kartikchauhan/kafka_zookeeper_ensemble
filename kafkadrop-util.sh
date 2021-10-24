@@ -1,0 +1,1 @@
+docker run -d --name kafkadrop -p 9000:9000 -e KAFKA_BROKERCONNECT=Kartiks-MacBook-Air.local:9092 obsidiandynamics/kafdrop
