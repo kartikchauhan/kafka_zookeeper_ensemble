@@ -1,0 +1,95 @@
+version: '3'
+services:
+  zookeeper-1:
+    image: confluentinc/cp-zookeeper:5.3.1
+    container_name: zookeeper-1
+    hostname: zookeeper-1
+    ports:
+      - "13181:13181"
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 13181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
+
+  zookeeper-2:
+    image: confluentinc/cp-zookeeper:5.3.1
+    container_name: zookeeper-2
+    hostname: zookeeper-2
+    ports:
+      - "23181:23181"
+    environment:
+      ZOOKEEPER_SERVER_ID: 2
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_CLIENT_PORT: 23181
+      ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
+
+  zookeeper-3:
+    image: confluentinc/cp-zookeeper:5.3.1
+    container_name: zookeeper-3
+    hostname: zookeeper-3
+    ports:
+      - "33181:33181"
+    environment:
+      ZOOKEEPER_SERVER_ID: 3
+      ZOOKEEPER_CLIENT_PORT: 33181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
+
+  kafka-1:
+    image: confluentinc/cp-kafka:5.3.1
+    container_name: kafka-1
+    hostname: kafka-1
+    ports:
+      - "19092:19092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 4
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:13181,zookeeper-2:23181,zookeeper-3:33181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://10.25.62.149:19092
+
+  kafka-2:
+    image: confluentinc/cp-kafka:5.3.1
+    container_name: kafka-2
+    hostname: kafka-2
+    ports:
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 4
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:13181,zookeeper-2:23181,zookeeper-3:33181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://10.25.62.149:29092
+
+  kafka-3:
+    image: confluentinc/cp-kafka:5.3.1
+    container_name: kafka-3
+    hostname: kafka-3
+    ports:
+      - "59092:59092"
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 4
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:13181,zookeeper-2:23181,zookeeper-3:33181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://10.25.62.149:59092
+
+  kafka-4:
+    image: confluentinc/cp-kafka:5.3.1
+    container_name: kafka-4
+    hostname: kafka-4
+    ports:
+      - "59093:59093"
+    environment:
+      KAFKA_BROKER_ID: 4
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 4
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:13181,zookeeper-2:23181,zookeeper-3:33181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://10.25.62.149:59093
